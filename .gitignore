@@ -1,0 +1,17 @@
+live-state.json
+live-state.json.tmp
+server.log
+server-error.log
+.preview-browser*/
+backups/
+music/
+image/
+references/
+preview-*.png
+preview-*.webm
+*.zip
+node_modules/
+.env
+.env.*
+!.env.example
+__pycache__/

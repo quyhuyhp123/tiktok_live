@@ -1,0 +1,70 @@
+ĐỘI HÌNH 5 DANCER 3D — BẢN 17.2
+
+CHẠY
+1. Đóng cửa sổ máy chủ cũ, mở D:\tiktok_live rồi chạy .\start.bat.
+2. Vào http://127.0.0.1:8080/?control=1, tìm mục ĐỘI HÌNH 5 DANCER 3D.
+3. Chờ dòng Đã tải đủ 5 model 3D. Bấm Phát nhạc & bắt đầu từ đầu.
+4. Trong LIVE Studio, tải lại nguồn Link http://127.0.0.1:8080/#tiktok.studio; giữ 1080 × 1920.
+
+ĐỘI HÌNH
+- Dancer 1: Neuvillette, hàng trước bên trái.
+- Dancer 2: Zhongli, hàng trước bên phải.
+- Dancer 3–5 ban đầu: Flins, Wriothesley, Childe ở hàng sau.
+- Sau mỗi lượt khoảng 26,7 giây, ba người hàng sau đổi vị trí vòng tròn trong 0,48 giây. Hai người hàng trước giữ vị trí.
+- Số Dancer là số vị trí. Khi hàng sau đổi chỗ, nhãn Dancer và tên người đang đứng tại vị trí được cập nhật.
+- Có thể đổi model ở năm ô, rồi bấm Lưu đội hình & 5 món quà. Mỗi model chỉ dùng một lần.
+
+QUÀ 5 XU
+- Đã gán sẵn 5 quà giá 5 xu theo danh mục Việt Nam, kiểm tra ngày 09/11/2026:
+  Dancer 1: Finger Heart (bắn tim), mã 5487; cũng nhận biến thể 5880.
+  Dancer 2: Ice cream (kem), mã 7412.
+  Dancer 3: Okay, mã 8635.
+  Dancer 4: Peach (quả đào), mã 10961.
+  Dancer 5: Name shoutout (gọi tên), mã 19445.
+- Nguồn đối chiếu: https://livefinity.pro/api/site/gifts?region=vn và https://livefinity.pro/gift-catalog-v1/offline.json.
+- Chỉ kích hoạt khi giá mỗi món trong sự kiện nhận được đúng 5 xu. Có thể đổi quà trong bảng điều khiển.
+- Mỗi hàng có tên quà và mã quà (nếu có). Ưu tiên mã; nếu sự kiện không có mã thì đối chiếu tên. Mã khác sẽ không bị nhận nhầm chỉ vì trùng tên.
+- Danh sách gợi ý sẽ bổ sung những quà 5 xu thật mà ứng dụng nhận được qua TikFinity. Không cần tạo thêm năm event riêng trong TikFinity.
+- Bấm Lưu để cập nhật bảng note trên LIVE. Ô chưa gán sẽ hiện Chưa gán quà và không tự nhận nhầm quà khác.
+- Cấu hình cũ đang để trống được điền bộ quà mặc định khi chạy bản 17.1. Những tên/mã quà bạn đã chỉnh được giữ lại. Nếu chủ động xóa hết quà trong bản mới rồi lưu, các ô vẫn để trống khi mở lại.
+- Bấm Thử Dancer 1–5 để kiểm tra camera mà không cộng xu thật.
+- Quà đã gán sẽ zoom đúng dancer đang ở vị trí đó trong 5 giây; nếu đang có màn khoe cánh hoặc Rose trước đó, đợi màn đó xong rồi zoom.
+- Khi zoom, camera chuyển mượt ra phía trước mặt dancer và lấy cận cảnh từ ngang eo trở lên để thấy rõ mặt, động tác tay. Hết thời gian thì trở lại góc toàn cảnh đang lướt.
+- Xu vẫn cộng cho người tặng; quà 5 xu đã gán không tạo phi kiếm ngoài ý muốn khi tặng nhiều cái.
+
+NHẠC VÀ CHUYỂN ĐỘNG
+- Âm thanh được tách từ video bạn cung cấp: FDown.vn_TikTok_Video_Downloader_402b.mp4.
+- Nhạc chỉ phát trong bảng điều khiển, không tự phát thêm lần nữa trong nguồn Link.
+- Nếu muốn không phát ra loa: dùng VB-CABLE, chuyển đầu ra của trình duyệt bảng điều khiển sang CABLE Input; LIVE Studio thu CABLE Output và tắt thu âm hệ thống.
+- Nút phát, tạm dừng và tua nhạc trong bảng điều khiển điều khiển mốc nhảy chung cho nguồn Link.
+- Chuyển động được ước lượng tại máy bằng MediaPipe từ 298/321 khung mẫu của video, rồi nội suy/làm mượt. Đây không phải file animation gốc; chiều sâu và những chỗ bị khuất chỉ được ước lượng.
+- Bốn model dùng bộ xương có sẵn. Childe được gắn xương và trọng số tự động trong trình duyệt; áo/vạt dài có thể không giống mô phỏng vải của video gốc.
+- Ánh sáng dưới chân, vệt và bóng sáng theo tay được tạo khi vẽ sân khấu.
+
+TỆP VÀ HIỆU NĂNG
+- Model lấy từ model_3d/Nam; Three.js 0.187.0 và các bộ tải được lưu tại vendor/three, có giấy phép MIT kèm theo.
+- Runtime không cần Python, npm, Internet hay Blender. Cần trình duyệt/nguồn Link có WebGL 2.
+- Model được tải một lần khi mở trang; texture lớn được giảm về tối đa 1024 để tiết kiệm bộ nhớ. Hình sân khấu vẫn xuất 1080 × 1920.
+- dancer-catalog.js: vị trí, đội hình, chu kỳ đổi chỗ và cấu hình quà.
+- dancers-3d.js: tải model, điều khiển bộ xương, render và hiệu ứng.
+- assets/dance/reference-402b-motion.json và reference-402b.mp3: chuyển động/nhạc đã chuẩn bị.
+- scripts/prepare-dance.py chỉ dành để dựng lại dữ liệu nguồn; không chạy khi mở start.bat.
+
+KIỂM TRA
+node --test engine.test.js connection.test.js dance-motion.test.js dancer-stage.test.js
+Để kiểm tra 3D: đặt CHECK_3D_DANCERS=1, QA_USE_GPU=1 và PREVIEW_OUTPUT_DIR vào thư mục tạm, rồi chạy node verify-preview.cjs.
+
+SỬA CHÂN VÀ TỐI ƯU / 17.2
+- Chân dùng IK hai khớp, gối gập về trước, bàn chân giữ hướng phẳng. Chuyển động nhấc chân được giới hạn để tránh xoắn gối hoặc xuyên mặt bục.
+- Phần đế giày Childe được gắn trọng số vào xương cổ chân thay vì xương cẳng chân.
+- Chuyển động được tính sẵn một lần khi tải model, sau đó nội suy trong lúc phát. Không giải toàn bộ bộ xương lại ở mỗi khung hình.
+- Tối ưu cập nhật ma trận, tái sử dụng phép chiếu, bỏ vẽ phần ngoài khung. Model nhìn gần vẫn dùng ảnh render 384; toàn cảnh dùng 256, có ngưỡng chuyển để tránh đổi kích thước liên tục.
+- Ở chế độ ưu tiên nét, nền hiệu ứng được vẽ riêng ở 720 × 1280 rồi ghép lên nguồn 1080 × 1920. Nhân vật, chữ, bục và bảng xếp hạng vẫn vẽ Full HD. Chế độ đầy đủ giữ cả nền Full HD.
+- Phép thử cục bộ cùng 120 nhân vật: thời gian CPU trung vị khoảng 19,6 ms trước và 8,6 ms sau tối ưu. Kết quả thực tế còn phụ thuộc GPU, số nguồn trình duyệt và cấu hình LIVE Studio.
+
+TỰ DỌN NGƯỜI XEM
+- Mặc định sau 5 phút không nhận hoạt động của một người thật, nhân vật đó được đưa ra khỏi sàn và bục top. Xu, cánh, tên và thứ hạng tặng quà vẫn giữ.
+- Chat thường, thả tim, tặng quà và tín hiệu hiện diện nhận được có thể làm mới mốc thời gian. Dữ liệu hiện tại không phải danh sách kết nối đầy đủ của toàn bộ người xem; người im lặng vẫn xem có thể bị đưa khỏi sàn.
+- Người đó chat hey hoặc tặng quà để trở lại. Năm dancer 3D cố định và nhân vật mô phỏng không bị dọn.
+- Có thể tắt trong mục TỰ DỌN SÀN nếu muốn giữ cả những người chỉ xem im lặng. Máy chủ kiểm tra mỗi 5 giây.
+- Kiểm tra thêm: node --test idle-viewers.test.js.
