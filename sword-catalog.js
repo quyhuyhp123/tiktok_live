@@ -1,9 +1,10 @@
 (function(root,factory){const api=factory();if(typeof module==="object"&&module.exports)module.exports=api;else root.SwordCatalog=api;})(typeof globalThis!=="undefined"?globalThis:this,function(){
  const duration=12000,takeoff=1200,landing=1200;
  const tiers=[
-  {coins:10,tier:1,name:"Thanh Phong",color:"#76e8ff",accent:"#e8ffff",blade:108,trailMs:2600,ghosts:2},
-  {coins:20,tier:2,name:"Tử Lôi",color:"#b28aff",accent:"#88f4ff",blade:134,trailMs:3400,ghosts:3},
-  {coins:50,tier:3,name:"Long Vương",color:"#ffd477",accent:"#a6ffff",blade:160,trailMs:4400,ghosts:5}
+  // Artwork cut-outs are vertical (pommel up); centerX/guardY are pixels in the 1024 px tall image.
+  {coins:10,tier:1,name:"Tử Lôi",color:"#a77bff",accent:"#e6dcff",blade:108,trailMs:2600,ghosts:2,image:"sword-10.png",centerX:130,guardY:238,length:290},
+  {coins:20,tier:2,name:"Bạch Phượng",color:"#ffe7a8",accent:"#a8eeff",blade:134,trailMs:3400,ghosts:3,image:"sword-20.png",centerX:120,guardY:193,length:315},
+  {coins:50,tier:3,name:"Long Vương",color:"#ffc15a",accent:"#ff6f9a",blade:160,trailMs:4400,ghosts:5,image:"sword-50.png",centerX:145,guardY:262,length:355}
  ];
  const forGift=coins=>tiers.find(tier=>tier.coins===coins)||null;
  const definition=coins=>forGift(coins)||tiers[2];

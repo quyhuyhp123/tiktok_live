@@ -20,15 +20,23 @@
   {id:17,key:"gau-dai-ca",name:"Gấu Đại Ca",custom:true,canvas:true,meme:true,headFrame:0,accessory:"shades",outfit:"jacket",aliases:["gau-dai-ca","gau dai ca","dai ca"],dance:"hammer-jump",body:"#242533",skin:"#fffdf8",limb:"#292b39",glove:"#fffdf8",boot:"#ffd375",trim:"#ffce69",headWidth:132,bodyWidth:80,armWidth:10,legWidth:10},
   {id:18,key:"gau-cuoi-dien",name:"Gấu Cười Điên",custom:true,canvas:true,meme:true,headFrame:1,accessory:"cap",outfit:"suspenders",aliases:["gau-cuoi-dien","gau cuoi dien","cuoi dien"],dance:"windmill-stomp",body:"#fff1e6",skin:"#fffdf8",limb:"#fff1e6",glove:"#fffdf8",boot:"#ed658f",trim:"#ff679e",headWidth:134,bodyWidth:76,armWidth:9,legWidth:10},
   {id:19,key:"gau-mit-uot",name:"Gấu Mít Ướt",custom:true,canvas:true,meme:true,headFrame:2,headphones:true,outfit:"tracksuit",aliases:["gau-mit-uot","gau mit uot","mit uot"],dance:"hard-shuffle",body:"#5551be",skin:"#fffdf8",limb:"#7771e0",glove:"#fffdf8",boot:"#d5faff",trim:"#70e5ff",headWidth:130,bodyWidth:76,armWidth:9,legWidth:10},
-  {id:20,key:"nam-bao",name:"Nấm Bão",custom:true,canvas:true,meme:true,headFrame:3,accessory:"headband",outfit:"jersey",aliases:["nam-bao","nam bao","nambao"],dance:"power-cross",body:"#d83d54",skin:"#fff1e6",limb:"#e95166",glove:"#fff1e6",boot:"#fff0ce",trim:"#ffdd78",headWidth:132,bodyWidth:78,armWidth:9,legWidth:10}
+  {id:20,key:"nam-bao",name:"Nấm Bão",custom:true,canvas:true,meme:true,headFrame:3,accessory:"headband",outfit:"jersey",aliases:["nam-bao","nam bao","nambao"],dance:"power-cross",body:"#d83d54",skin:"#fff1e6",limb:"#e95166",glove:"#fff1e6",boot:"#fff0ce",trim:"#ffdd78",headWidth:132,bodyWidth:78,armWidth:9,legWidth:10},
+  // Meme heads recoloured from the same sticker sheet, plus one hand-drawn sly face.
+  {id:21,key:"gau-hong",name:"Gấu Hồng Phấn",custom:true,canvas:true,meme:true,headFrame:1,headTint:"#ff5fa8",outfit:"tracksuit",aliases:["gau-hong","gau hong","gauhong"],dance:"pink-party",body:"#ff7eb9",skin:"#fffdf8",limb:"#ff96c8",glove:"#fffdf8",boot:"#fff0f7",trim:"#ffd2e8",headWidth:132,bodyWidth:76,armWidth:9,legWidth:10},
+  {id:22,key:"gau-vang",name:"Gấu Vàng Đại Gia",custom:true,canvas:true,meme:true,headFrame:0,headTint:"#e9a91c",accessory:"crown",outfit:"chain",aliases:["gau-vang","gau vang","dai gia"],dance:"boss-roof",body:"#22212b",skin:"#fffdf8",limb:"#2c2b37",glove:"#fffdf8",boot:"#f1c24a",trim:"#ffd66b",headWidth:134,bodyWidth:80,armWidth:10,legWidth:10},
+  {id:23,key:"nam-toc-xanh",name:"Nấm Tóc Xanh",custom:true,canvas:true,meme:true,headFrame:3,headTint:"#2f8cff",headphones:true,aliases:["nam-toc-xanh","nam toc xanh","toc xanh"],dance:"sprinkler-mix",body:"#1d4fa8",skin:"#fffdf8",limb:"#2d68d0",glove:"#fffdf8",boot:"#dff0ff",trim:"#7fd2ff",headWidth:130,bodyWidth:76,armWidth:9,legWidth:10},
+  {id:24,key:"nam-toc-do",name:"Nấm Tóc Đỏ",custom:true,canvas:true,meme:true,headFrame:3,headTint:"#ff3b3b",accessory:"shades",outfit:"jersey",aliases:["nam-toc-do","nam toc do","toc do"],dance:"disco-fever",body:"#c8263a",skin:"#fff1e6",limb:"#e0384c",glove:"#fff1e6",boot:"#fff3d0",trim:"#ffd36b",headWidth:130,bodyWidth:76,armWidth:9,legWidth:10},
+  {id:25,key:"gau-tim",name:"Gấu Tím Mít Ướt",custom:true,canvas:true,meme:true,headFrame:2,headTint:"#8b5cff",outfit:"suspenders",aliases:["gau-tim","gau tim","gautim"],dance:"wave-flow",body:"#efe7ff",skin:"#fffdf8",limb:"#e6dcff",glove:"#fffdf8",boot:"#8b5cff",trim:"#b597ff",headWidth:134,bodyWidth:76,armWidth:9,legWidth:10},
+  {id:26,key:"mat-hoat-ke",name:"Mặt Hoạt Kê",custom:true,canvas:true,meme:true,headStyle:"sly",outfit:"jacket",aliases:["mat-hoat-ke","hoat ke","hoatke"],dance:"dab-party",body:"#2a2836",skin:"#ffe9a8",limb:"#353343",glove:"#ffe9a8",boot:"#ffcf4a",trim:"#ffcf4a",headWidth:124,bodyWidth:78,armWidth:10,legWidth:10},
+  {id:27,key:"gau-cao-boi",name:"Gấu Cao Bồi",custom:true,canvas:true,meme:true,headFrame:0,headTint:"#8a5a2b",accessory:"cowboy",outfit:"jacket",aliases:["gau-cao-boi","gau cao boi","cao boi"],dance:"horse-ride",body:"#6b4423",skin:"#fffdf8",limb:"#3e5d8a",glove:"#fffdf8",boot:"#8a5a2b",trim:"#e8b86b",headWidth:132,bodyWidth:80,armWidth:10,legWidth:10},
  ];
  const definition=id=>Number.isInteger(id)?characters[id]||null:null;
  const forCommand=command=>characters.find(c=>c.aliases?.includes(command))||null;
  const catalog={characters,count:characters.length,definition,forCommand};
  // Keep browser choreography in the existing catalog resource for running servers.
  catalog.motion=(function(characters){
- const pool=[17,0,18,1,19,2,20,3,4,5,6,7,11,12,13,14,15,16],childPool=[0,1,2,4,6,7,11,12,14,16];
- const styles=["Giơ tay theo nhịp","Lắc vai","Đấm tay xen kẽ","Nghiêng người","Xoay tay","Lắc hông","Nhảy dây","Cuộn tay","Đấm ngang vai","Đấm chéo xuống","Lảo đảo","Groove ngang","Bước chéo","Shuffle gót chân","Bật mở tay","Twist người","Đá chân đổi bên","Xoay tay bão + dậm chân","Shuffle bật gối","Đấm chéo lực + lắc hông","Bật nhảy nện tay"];
+ const pool=[17,0,21,18,1,22,19,2,23,20,3,24,4,25,5,26,6,27,7,28,11,12,13,14,15,16],childPool=[0,1,2,4,6,7,11,12,14,16,21,23,27,28];
+ const styles=["Giơ tay theo nhịp","Lắc vai","Đấm tay xen kẽ","Nghiêng người","Xoay tay","Lắc hông","Nhảy dây","Cuộn tay","Đấm ngang vai","Đấm chéo xuống","Lảo đảo","Groove ngang","Bước chéo","Shuffle gót chân","Bật mở tay","Twist người","Đá chân đổi bên","Xoay tay bão + dậm chân","Shuffle bật gối","Đấm chéo lực + lắc hông","Bật nhảy nện tay","Floss lắc hông","Dab đổi bên","Đẩy nóc nhà","Tưới nước","Disco chỉ trời","Cưỡi ngựa","Sóng tay","Bật nhảy dang tay"];
  function limbs(mode,phase,energy,child,riding){
   const step=Math.sin(phase),jump=Math.pow(Math.max(0,step),.7),hip=child?0:(mode===5?step*14:mode===7?Math.sin(phase*.5)*9:mode===4?step*3:0)*energy;
   let leftArm,rightArm;
@@ -89,6 +97,50 @@
    p.leftArm=[[-16,-39],[-42-lift*8,-37-lift*40],[-30-lift*32,-15-lift*118]];p.rightArm=[[16,-39],[42+lift*8,-37-lift*40],[30+lift*32,-15-lift*118]];
    p.hip=half*12*e;p.sway=half*7*e;p.tilt=-step*.11*e;p.bounce=-hop*32*e;p.turn=half*.18;
    p.legs=[[[-9+p.hip,-20],[-25-hop*8,-8-hop*9],[-36-hop*16,-3-hop*17]],[[9+p.hip,-20],[25+hop*8,-8-hop*9],[36+hop*16,-3-hop*17]]];
+  }else if(mode===21){ // Floss: straight arms swing past the hips while the hips swing the other way.
+   const s=Math.sin(phase);
+   p.leftArm=[[-16,-39],[-27+s*22,-27],[-31+s*48,-13]];p.rightArm=[[16,-39],[27+s*22,-27],[31+s*48,-13]];
+   p.hip=child?0:-s*13*e;p.sway=-s*4*e;p.tilt=s*.06*e;p.bounce=-Math.abs(s)*6*e;
+   p.legs=[[[-9+p.hip,-20],[-15+p.hip*.4,-9],[-20,-3]],[[9+p.hip,-20],[15+p.hip*.4,-9],[20,-3]]];
+  }else if(mode===22){ // Dab, switching sides every two beats with a snap.
+   const d=Math.tanh(Math.sin(phase*.5)*4),r=Math.max(0,d),l=Math.max(0,-d);
+   const mix=(a,b,k)=>a.map((v,i)=>[v[0]+(b[i][0]-v[0])*k,v[1]+(b[i][1]-v[1])*k]),mirror=arm=>arm.map(([x,y])=>[-x,y]);
+   const NL=[[-16,-39],[-30,-30],[-36,-18]],NR=[[16,-39],[30,-30],[36,-18]],RR=[[16,-39],[48,-60],[76,-84]],RL=[[-16,-39],[-6,-80],[22,-98]];
+   p.rightArm=r>0?mix(NR,RR,r):mix(NR,mirror(RL),l);p.leftArm=r>0?mix(NL,RL,r):mix(NL,mirror(RR),l);
+   p.hip=child?0:d*6*e;p.sway=d*5*e;p.tilt=-d*.22;p.bounce=-Math.abs(step)*6*e;
+   p.legs=[[[-9+p.hip,-20],[-17+d*4,-9],[-25+d*6,-3]],[[9+p.hip,-20],[17+d*4,-9],[25+d*6,-3]]];
+  }else if(mode===23){ // Raise the roof: palms push up beside the head on every beat.
+   const push=Math.pow(Math.max(0,Math.cos(phase)),.6);
+   p.leftArm=[[-16,-39],[-46,-70-push*10],[-38,-112-push*26]];p.rightArm=[[16,-39],[46,-70-push*10],[38,-112-push*26]];
+   p.hip=child?0:half*9*e;p.sway=half*8*e;p.tilt=-half*.08*e;p.bounce=-push*14*e;
+   p.legs=[[[-9+p.hip,-20],[-20,-9],[-26,-3-left*9]],[[9+p.hip,-20],[20,-9],[26,-3-right*9]]];
+  }else if(mode===24){ // Sprinkler: hand behind the head, the other arm ticks across in steps.
+   const tick=((Math.floor(phase/Math.PI)%8)+8)%8,sweep=(tick<4?tick:8-tick)/4,flick=Math.pow(1-(((phase/Math.PI)%1)+1)%1,4);
+   p.leftArm=[[-16,-39],[-34,-78],[-12,-112]];const a=-.25+sweep*1.15;
+   p.rightArm=[[16,-39],[16+Math.cos(a)*34,-39-Math.sin(a)*34],[16+Math.cos(a)*68,-39-Math.sin(a)*68-flick*5]];
+   p.hip=child?0:(sweep-.5)*10*e;p.sway=(sweep-.5)*8*e;p.tilt=(sweep-.5)*.12;p.bounce=-flick*8*e;
+   p.legs=[[[-9+p.hip,-20],[-19,-9],[-27,-3]],[[9+p.hip,-20],[21,-9-flick*6],[30,-3-flick*10]]];
+  }else if(mode===25){ // Disco point: point to the sky, then sweep down across the body.
+   const up=(1+Math.cos(phase))*.5;
+   p.rightArm=[[16,-39],[30+up*10,-50-up*30],[34+up*30,-30-up*100]];p.leftArm=[[-16,-39],[-34,-34],[-24,-18]];
+   p.hip=child?0:(up-.5)*18*e;p.sway=(up-.5)*8*e;p.tilt=-(up-.5)*.18*e;p.bounce=-Math.abs(step)*7*e;
+   p.legs=[[[-9+p.hip,-20],[-18+p.hip*.3,-9],[-27,-3]],[[9+p.hip,-20],[18+p.hip*.3,-10-up*4],[26+up*8,-3-up*7]]];
+  }else if(mode===26){ // Horse ride: wrists crossed on the reins, a wide galloping hop; lasso every other bar.
+   const gallop=Math.abs(Math.sin(phase)),lasso=Math.sin(phase*.25)>.3;
+   p.leftArm=[[-16,-39],[-26,-38+gallop*4],[6,-44+gallop*5]];
+   p.rightArm=lasso?[[16,-39],[38,-78],[30+Math.cos(phase*2)*22,-118+Math.sin(phase*2)*8]]:[[16,-39],[26,-38+gallop*4],[-6,-46+gallop*5]];
+   p.hip=child?0:half*8*e;p.sway=half*6*e;p.tilt=half*.06*e;p.bounce=-gallop*18*e;
+   p.legs=[[[-9+p.hip,-20],[-26,-10-left*8],[-36+step*8,-3-left*14]],[[9+p.hip,-20],[26,-10-right*8],[36+step*8,-3-right*14]]];
+  }else if(mode===27){ // Wave arms: a ripple travels from one hand, across the shoulders, to the other.
+   const w=k=>Math.sin(phase*.5-k);
+   p.leftArm=[[-16,-39],[-40,-50+w(0)*14],[-66,-56+w(.9)*22]];p.rightArm=[[16,-39],[40,-50+w(2.4)*14],[66,-56+w(3.3)*22]];
+   p.hip=child?0:w(1.7)*8*e;p.sway=w(1.7)*6*e;p.tilt=w(1.6)*.1*e;p.bounce=-Math.abs(step)*5*e;
+   p.legs=[[[-9+p.hip,-20],[-18,-9],[-25,-3-left*5]],[[9+p.hip,-20],[18,-9],[25,-3-right*5]]];
+  }else if(mode===28){ // Jumping jacks: clap overhead in the air, land with feet together.
+   const open=Math.pow(Math.max(0,Math.sin(phase)),.8);
+   p.leftArm=[[-16,-39],[-40+open*8,-50-open*35],[-50+open*44,-40-open*96]];p.rightArm=[[16,-39],[40-open*8,-50-open*35],[50-open*44,-40-open*96]];
+   p.hip=0;p.sway=half*3*e;p.tilt=0;p.bounce=-open*26*e;
+   p.legs=[[[-9,-20],[-16-open*12,-9],[-18-open*22,-3]],[[9,-20],[16+open*12,-9],[18+open*22,-3]]];
   }
   return p;
  }
@@ -118,7 +170,7 @@
   const beats=t*(settings.bpm||148)/60,energy=(settings.energy||1.4)*(settings.boosted?1.2:1),seed=u.seed||0,offset=seed%8,character=characters.definition(u.variant),child=!!character?.child,choices=child?childPool:pool;
   const phrase=Math.floor((beats+offset)/8)+Math.floor(offset),sequence=((phrase%choices.length)+choices.length)%choices.length,phase=beats*Math.PI*2+seed*.017;
   if(u.riding)return limbs(0,phase,energy,child,true);
-  const combo={"hydro-rave":[19,17,18],"geo-rave":[20,19,17]}[character?.dance];
+  const combo={"hydro-rave":[19,17,18],"geo-rave":[20,19,17],"pink-party":[21,28,27],"boss-roof":[23,20,25],"sprinkler-mix":[24,18,21],"disco-fever":[25,22,17],"wave-flow":[27,14,23],"dab-party":[22,28,24],"horse-ride":[26,19,28]}[character?.dance];
   if(combo){
    const clock=beats+offset,index=((Math.floor(clock/4)%combo.length)+combo.length)%combo.length,part=((clock%4)+4)%4;
    const at=mode=>groove(limbs(mode,phase,energy,child,false),mode,child),p=at(combo[index]);

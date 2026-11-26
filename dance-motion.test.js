@@ -4,8 +4,8 @@ const settings={bpm:120,energy:1.35};
 const geometry=p=>[p.hip,p.bounce,p.sway,p.tilt,p.turn,...p.leftArm.flat(),...p.rightArm.flat(),...p.legs.flat(2)];
 test('all characters have finite bounded movement, with asynchronous freestyle phrases',()=>{
  for(const character of catalog.characters)for(let t=0;t<36;t+=.17){const values=geometry(motion.pose({variant:character.id,seed:17.3},t,settings));assert.ok(values.every(v=>Number.isFinite(v)&&Math.abs(v)<250));}
- const modes=new Set();for(let t=0;t<70;t+=.5)modes.add(motion.pose({variant:0,seed:0},t,settings).mode);
- for(const mode of [11,12,13,14,15,16,17,18,19,20])assert.ok(modes.has(mode));
+ const modes=new Set();for(let t=0;t<260;t+=.5)modes.add(motion.pose({variant:0,seed:0},t,settings).mode);
+ for(const mode of [11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28])assert.ok(modes.has(mode));
  const a=motion.pose({variant:0,seed:1},8,settings),b=motion.pose({variant:0,seed:5},8,settings);assert.notDeepEqual(a.leftArm,b.leftArm);
 });
 test('new meme choreography moves arms and feet and keeps each named dance distinct',()=>{

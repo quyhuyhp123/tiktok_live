@@ -1,10 +1,10 @@
 ﻿const fs=require('fs'),path=require('path'),os=require('os'),net=require('net'),{spawn}=require('child_process');
 (async()=>{
  const temp=fs.mkdtempSync(path.join(os.tmpdir(),'neon-preview-test-'));
- for(const f of ['server.js','engine.js','tikfinity-bridge.js','source-monitor.js','camera.js','wing-catalog.js','sword-catalog.js','character-catalog.js','dance-motion.js','dancer-catalog.js','dancer-controls.js','dancers-3d.js','dancers.css','index.html','app.js','style.css','dance-controls.css','wings.css'])fs.copyFileSync(path.join(__dirname,f),path.join(temp,f));
+ for(const f of ['server.js','engine.js','tikfinity-bridge.js','source-monitor.js','camera.js','wing-catalog.js','sword-catalog.js','firework-catalog.js','character-catalog.js','dance-motion.js','dancer-catalog.js','dancer-controls.js','dancers-3d.js','dancer-expression.js','dancers.css','index.html','app.js','style.css','dance-controls.css','wings.css'])fs.copyFileSync(path.join(__dirname,f),path.join(temp,f));
  fs.mkdirSync(path.join(temp,'assets'));for(const f of ['meme-heads.png','fantasy-wings.png','fantasy-wings-extra.png','stage-dancers.png','stage-dancers-roll.png'])fs.copyFileSync(path.join(__dirname,'assets',f),path.join(temp,'assets',f));
  fs.mkdirSync(path.join(temp,'assets','characters'));for(const c of require('./character-catalog').characters)if(c.asset)fs.copyFileSync(path.join(__dirname,'assets','characters',c.asset),path.join(temp,'assets','characters',c.asset));
- for(const directory of ['vendor','model_3d','assets/dance'])fs.cpSync(path.join(__dirname,directory),path.join(temp,directory),{recursive:true});
+ for(const directory of ['vendor','model_3d','assets/dance','assets/swords'])fs.cpSync(path.join(__dirname,directory),path.join(temp,directory),{recursive:true});
  // Keep visual QA independent from any real TikFinity room running on this PC.
  const isolatedUpstream=path.join(temp,'no-live-upstream.cjs');
  fs.writeFileSync(isolatedUpstream,'globalThis.WebSocket=class extends EventTarget{constructor(url){super();if(new URL(url).hostname!=="127.0.0.1")throw Error("Unexpected QA upstream");queueMicrotask(()=>this.dispatchEvent(new Event("open")));}close(){}};');

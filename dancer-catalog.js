@@ -9,11 +9,11 @@
   {slot:5,name:"Name shoutout",giftId:"19445",icon:"📣"}
  ];
  const models=[
-  {id:"neuvillette",name:"Neuvillette",file:"neuvillette.glb",color:"#83e6ff"},
-  {id:"zhongli",name:"Zhongli",file:"zhongli_from_genshin_impact.glb",color:"#ffdb83"},
-  {id:"flins",name:"Flins",file:"flins_rigged_free.glb",color:"#bea2ff"},
-  {id:"wriothesley",name:"Wriothesley",file:"genshin_impact_-_wriothesley.glb",color:"#ff7eac"},
-  {id:"childe",name:"Childe",file:"tartaglia__childe.glb",color:"#ffac76"}
+  {id:"neuvillette",name:"Neuvillette",file:"neuvillette.glb",color:"#83e6ff",mouth:{x:0,y:251.2,w:2.4}},
+  {id:"zhongli",name:"Zhongli",file:"zhongli_from_genshin_impact.glb",color:"#ffdb83",mouth:{x:0,y:252.6,w:2.4}},
+  {id:"flins",name:"Flins",file:"flins_rigged_free.glb",color:"#bea2ff",mouth:{x:-6.4,y:252.8,w:2.2}},
+  {id:"wriothesley",name:"Wriothesley",file:"genshin_impact_-_wriothesley.glb",color:"#ff7eac",mouth:{x:0,y:252.2,w:2.1}},
+  {id:"childe",name:"Childe",file:"tartaglia__childe.glb",color:"#ffac76",mouth:{x:0,y:248.1,w:2.4,lift:.3}}
  ];
  const slots=[{x:-225,z:1010},{x:225,z:1010},{x:-340,z:715},{x:0,z:675},{x:340,z:715}].map((p,i)=>({...p,y:127,slot:i+1}));
  const plain=s=>String(s??"").normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[đĐ]/g,'d').toLowerCase().trim();

@@ -7,7 +7,7 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-node -e "fetch('http://127.0.0.1:8080/api/state',{signal:AbortSignal.timeout(1500)}).then(r=>r.ok?r.json():Promise.reject()).then(s=>process.exit(s.version==='17.2'?0:2)).catch(()=>process.exit(1))"
+node -e "fetch('http://127.0.0.1:8080/api/state',{signal:AbortSignal.timeout(1500)}).then(r=>r.ok?r.json():Promise.reject()).then(s=>process.exit(s.version==='18.8'?0:2)).catch(()=>process.exit(1))"
 if errorlevel 2 (
   echo A previous NEON ROOM server is still using port 8080.
   echo Close its server window, then run start.bat again to load this update.

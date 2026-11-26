@@ -66,7 +66,7 @@ test('source monitor detects undersized and landscape capture and expires closed
 });
 test('HTTP + TikFinity WebSocket + SSE delivers a real chat into the floor and monitors source quality',{timeout:12000},async()=>{
  const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),{spawn}=require('node:child_process'),temp=fs.mkdtempSync(path.join(os.tmpdir(),'neon-wire-test-')),upstream=await fakeTikfinity(),port=await freePort();
- for(const file of ['server.js','engine.js','tikfinity-bridge.js','source-monitor.js','camera.js','wing-catalog.js','sword-catalog.js','character-catalog.js','dance-motion.js','dancer-catalog.js','dancer-controls.js','dancers-3d.js','dancers.css'])fs.copyFileSync(path.join(__dirname,file),path.join(temp,file));
+ for(const file of ['server.js','engine.js','tikfinity-bridge.js','source-monitor.js','camera.js','wing-catalog.js','sword-catalog.js','firework-catalog.js','character-catalog.js','dance-motion.js','dancer-catalog.js','dancer-controls.js','dancers-3d.js','dancers.css'])fs.copyFileSync(path.join(__dirname,file),path.join(temp,file));
  const child=spawn(process.execPath,[path.join(temp,'server.js')],{env:{...process.env,PORT:String(port),TIKFINITY_WS_URL:upstream.url},windowsHide:true,stdio:['ignore','pipe','pipe']}),root='http://127.0.0.1:'+port,abort=new AbortController();let reader;
  try{
   await until(async()=>{try{return(await fetch(root+'/api/state')).ok}catch{return false}});await until(()=>upstream.connections===1);

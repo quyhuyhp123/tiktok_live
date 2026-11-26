@@ -39,9 +39,9 @@ test("invalid values cannot poison coin totals and unknown events are ignored",(
 test("HTTP server serves assets, syncs SSE, persists real settings and restricts file access",async()=>{
  const fs=require("node:fs"),os=require("node:os"),path=require("node:path"),{spawn}=require("node:child_process"),net=require("node:net");
  const temp=fs.mkdtempSync(path.join(os.tmpdir(),"neon-room-test-"));
- for(const file of ["server.js","engine.js","tikfinity-bridge.js","source-monitor.js","camera.js","wing-catalog.js","sword-catalog.js","character-catalog.js","dance-motion.js","dancer-catalog.js","dancer-controls.js","dancers-3d.js","dancers.css","app.js","index.html","style.css","dance-controls.css","wings.css"])fs.copyFileSync(path.join(__dirname,file),path.join(temp,file));
+ for(const file of ["server.js","engine.js","tikfinity-bridge.js","source-monitor.js","camera.js","wing-catalog.js","sword-catalog.js","firework-catalog.js","character-catalog.js","dance-motion.js","dancer-catalog.js","dancer-controls.js","dancers-3d.js","dancers.css","app.js","index.html","style.css","dance-controls.css","wings.css"])fs.copyFileSync(path.join(__dirname,file),path.join(temp,file));
  fs.mkdirSync(path.join(temp,"assets"));fs.copyFileSync(path.join(__dirname,"assets","stage-dancers.png"),path.join(temp,"assets","stage-dancers.png"));fs.copyFileSync(path.join(__dirname,"assets","fantasy-wings-extra.png"),path.join(temp,"assets","fantasy-wings-extra.png"));fs.copyFileSync(path.join(__dirname,"assets","fantasy-wings.png"),path.join(temp,"assets","fantasy-wings.png"));fs.copyFileSync(path.join(__dirname,"assets","meme-heads.png"),path.join(temp,"assets","meme-heads.png"));
- fs.copyFileSync(path.join(__dirname,"assets","stage-dancers-roll.png"),path.join(temp,"assets","stage-dancers-roll.png"));
+ fs.copyFileSync(path.join(__dirname,"assets","stage-dancers-roll.png"),path.join(temp,"assets","stage-dancers-roll.png"));fs.cpSync(path.join(__dirname,"assets","swords"),path.join(temp,"assets","swords"),{recursive:true});
  fs.mkdirSync(path.join(temp,'assets','characters'));for(const c of require('./character-catalog').characters)if(c.asset)fs.copyFileSync(path.join(__dirname,'assets','characters',c.asset),path.join(temp,'assets','characters',c.asset));
  const isolatedUpstream=path.join(temp,'no-live-upstream.cjs');fs.writeFileSync(isolatedUpstream,'globalThis.WebSocket=class extends EventTarget{close(){}};');
  const probe=net.createServer();await new Promise(r=>probe.listen(0,"127.0.0.1",r));const port=probe.address().port;await new Promise(r=>probe.close(r));
@@ -52,6 +52,8 @@ test("HTTP server serves assets, syncs SSE, persists real settings and restricts
   for(const route of ['/','/index.html','/#tiktok.studio']){const response=await fetch(root+route,{headers:{Origin:'null'}});assert.equal(response.status,200);assert.equal(response.headers.get('access-control-allow-origin'),'*');}
   for(const route of ['/api/state','/app.js'])assert.equal((await fetch(root+route,{headers:{Origin:'null'}})).headers.get('access-control-allow-origin'),null);
   for(const route of ["/","/app.js","/camera.js","/wing-catalog.js","/style.css","/dance-controls.css","/assets/meme-heads.png","/assets/fantasy-wings.png","/assets/fantasy-wings-extra.png","/assets/stage-dancers.png","/wings.css"]){const r=await fetch(root+route);assert.equal(r.status,200);assert.ok((await r.arrayBuffer()).byteLength>100);}
+  assert.equal((await fetch(root+"/api/avatar?id=nobody")).status,404);
+  for(const sword of require("./sword-catalog").tiers){const art=await fetch(root+"/assets/swords/"+sword.image);assert.equal(art.status,200,sword.image);assert.equal(art.headers.get("content-type"),"image/png");}
   const stageRoll=await fetch(root+"/assets/stage-dancers-roll.png");assert.equal(stageRoll.status,200);assert.ok((await stageRoll.arrayBuffer()).byteLength>100);
   assert.equal((await fetch(root+"/sword-catalog.js")).status,200);
   assert.equal((await fetch(root+"/character-catalog.js")).status,200);for(const c of require('./character-catalog').characters)if(c.asset)assert.equal((await fetch(root+'/assets/characters/'+c.asset)).status,200);
@@ -207,8 +209,8 @@ test('camera continues through center to the left even when resume is pressed re
  camera.migrateSweep(legacy,240000,time);assert.equal(legacy.cameraSweepPeriod,200000);assert.ok(Math.abs(camera.view(legacy,time).yaw-oldYaw)<1e-10);
 });
 
-test('named characters join, cycle through all twenty-one models and retain their look with VIP gifts',()=>{
- const catalog=require('./character-catalog');assert.equal(catalog.count,21);
+test('named characters join, cycle through all twenty-eight models and retain their look with VIP gifts',()=>{
+ const catalog=require('./character-catalog');assert.equal(catalog.count,28);
  for(const name of catalog.characters.flatMap(c=>c.aliases||[])){
   const c=new ClubState(),character=catalog.forCommand(name);assert.equal(c.event(event('chat',{comment:name})),true);
   const u=c.users.get('alice');assert.equal(u.variant,character.id);assert.equal(u.onFloor,true);
@@ -216,7 +218,7 @@ test('named characters join, cycle through all twenty-one models and retain thei
   c.event(event('gift',{diamondCount:50}));assert.equal(u.variant,character.id);assert.equal(c.snapshot().top[0].variant,character.id);
   assert.equal(new ClubState(c.save()).users.get('alice').variant,character.id);
  }
- const c=new ClubState();assert.equal(catalog.characters.filter(x=>x.custom).length,16);for(const character of catalog.characters.filter(x=>x.custom)){assert.equal(c.control('character',{variant:character.id}),true);assert.ok(c.snapshot().users.some(u=>u.variant===character.id&&u.demo));assert.equal(c.users.get(c.lastCharacterId).variant,character.id);}
+ const c=new ClubState();assert.equal(catalog.characters.filter(x=>x.custom).length,23);for(const character of catalog.characters.filter(x=>x.custom)){assert.equal(c.control('character',{variant:character.id}),true);assert.ok(c.snapshot().users.some(u=>u.variant===character.id&&u.demo));assert.equal(c.users.get(c.lastCharacterId).variant,character.id);}
  const real=c.ensure({uniqueId:'real',nickname:'Real viewer'});real.coins=77;const previous=real.variant;
  assert.equal(c.control('character',{variant:5,recipientId:'real'}),false);assert.equal(real.variant,previous);assert.equal(real.coins,77);
  for(const variant of [-1,catalog.count,'5',null])assert.equal(c.control('character',{variant}),false);
@@ -261,14 +263,15 @@ test('new wing reveals last 5 seconds except Phoenix at 15 seconds and do not re
  }
 });
 
-test('a 50-coin gift grants an immediate 12-second sword flight and equips its earned wings',()=>{
+test('a 50-coin gift shows its wing reveal, then takes off on a 12-second sword flight',()=>{
  const c=new ClubState(),before=Date.now();c.event(event('gift',{giftName:'Sword',diamondCount:25,repeatCount:2,msgId:'sword-1'}));
  const u=c.users.get('alice'),flight={...u.swordFlight};
- assert.equal(u.coins,50);assert.equal(c.focus,null);assert.equal(c.wingUnlock,null);assert.equal(u.wingTier,2);assert.equal(u.wings,true);assert.ok(flight.startedAt>=before&&flight.startedAt<=Date.now());assert.equal(flight.until-flight.startedAt,12000);
+ assert.equal(u.coins,50);assert.equal(c.focus.mode,'wing');assert.equal(c.wingUnlock.tier,2);assert.equal(u.wingTier,2);assert.equal(u.wings,true);assert.equal(flight.startedAt,c.focus.until);assert.ok(flight.startedAt>=before+5000);assert.equal(flight.until-flight.startedAt,12000);
  assert.deepEqual(c.snapshot().top[0].swordFlight,flight);
  c.event(event('gift',{giftName:'Sword',diamondCount:25,repeatCount:2,msgId:'sword-1'}));assert.equal(u.coins,50);assert.deepEqual(u.swordFlight,flight);
  assert.equal(c.save().users[0].swordFlight,undefined);assert.equal(new ClubState(c.save()).users.get('alice').swordFlight,null);
- for(const coins of [1,30,49,51,100,300]){const other=new ClubState();other.event(event('gift',{diamondCount:coins}));assert.equal(other.users.get('alice').swordFlight,undefined);}
+ for(const coins of [1,30,49]){const other=new ClubState();other.event(event('gift',{diamondCount:coins}));assert.equal(other.users.get('alice').swordFlight,undefined);}
+ for(const coins of [51,100,300,1000]){const big=new ClubState();big.event(event('gift',{diamondCount:coins}));const ride=big.users.get('alice').swordFlight;assert.equal(ride.coins,50,String(coins));assert.equal(big.focus.mode,'wing');assert.equal(ride.startedAt,big.focus.until);}
  const streak=new ClubState();streak.event(event('gift',{giftType:1,repeatEnd:false,diamondCount:50}));assert.equal(streak.users.size,0);
  streak.event(event('gift',{giftType:1,repeatEnd:true,diamondCount:50}));assert.ok(streak.users.get('alice').swordFlight);
  c.focus=null;u.coins=300;u.swordFlight={startedAt:Date.now()-4000,until:Date.now()+1000};const start=u.swordFlight.startedAt;
@@ -291,8 +294,8 @@ test('10, 20 and 50-coin gifts select distinct swords and queue one complete rid
  c.event(event('gift',{diamondCount:20,msgId:'ride-b'}));assert.equal(c.users.get('alice').swordFlight.rides.length,2);
  c.control('reset');assert.equal(c.users.size,0);assert.equal(new ClubState().control('sword',30),false);
 });
-test('swords skip or dismiss their own wing reveal while ordinary gifts and explicit wing previews still reveal',()=>{
- for(const [balance,coins,tier] of [[0,50,2],[29,10,1],[90,20,3],[290,10,6]]){
+test('10 and 20 xu swords skip their wing reveal; 50 xu and up reveal first, then fly',()=>{
+ for(const [balance,coins,tier] of [[29,10,1],[90,20,3],[290,10,6]]){
   const c=new ClubState();if(balance)c.event(event('gift',{diamondCount:balance}));
   c.event(event('gift',{diamondCount:coins}));const u=c.users.get('alice');
   assert.equal(u.coins,balance+coins);assert.equal(u.wingTier,tier);assert.equal(u.wings,true);assert.equal(u.vip,true);assert.equal(c.focus,null);assert.equal(c.wingUnlock,null);
@@ -300,7 +303,8 @@ test('swords skip or dismiss their own wing reveal while ordinary gifts and expl
  }
  const c=new ClubState();c.event(event('gift',{diamondCount:29}));c.event(event('gift',{diamondCount:10}));c.event(event('gift',{diamondCount:11}));assert.equal(c.focus.mode,'wing');assert.equal(c.wingUnlock.tier,2);
  const preview=new ClubState();preview.control('wingPreview',50);assert.equal(preview.focus.mode,'wing');assert.equal(preview.wingUnlock.tier,2);assert.equal(preview.focus.until-preview.focus.startedAt,5000);
- const other=new ClubState();other.event(event('gift',{uniqueId:'other',diamondCount:300}));const reveal=other.focus;other.event(event('gift',{diamondCount:50}));assert.equal(other.focus,reveal);assert.equal(other.wingUnlock.userId,'other');
+ const other=new ClubState();other.event(event('gift',{uniqueId:'other',diamondCount:300}));const reveal=other.focus;other.event(event('gift',{diamondCount:20}));assert.equal(other.focus,reveal);assert.equal(other.wingUnlock.userId,'other');
+ const big=new ClubState();big.event(event('gift',{diamondCount:50}));const bu=big.users.get('alice');assert.equal(big.focus.mode,'wing');assert.equal(big.wingUnlock.tier,2);assert.equal(require('./sword-catalog').rideAt(bu.swordFlight,Date.now()),null);assert.ok(require('./sword-catalog').rideAt(bu.swordFlight,big.focus.until+100));
 });
 test('all sword buttons reward the selected identity, keep its name and never touch other viewers',()=>{
  const c=new ClubState(),[first,second]=c.snapshot().demoCandidates;
@@ -318,4 +322,83 @@ test('all sword buttons reward the selected identity, keep its name and never to
  for(const value of [{coins:50,recipientId:'alice'},{coins:50,recipientId:'missing'},{coins:30,recipientId:first.id},{coins:'10',recipientId:first.id},{coins:10}])assert.equal(c.control('sword',value),false);
  assert.equal(c.users.size,3);assert.equal(c.users.get('alice').coins,77);assert.equal(c.users.get(first.id).coins,80);
  assert.equal(c.save().users.length,1);
+});
+
+test("1-coin Thumbs Up fires salvos of five varied fireworks without launching a sword",()=>{
+ const catalog=require("./firework-catalog");
+ const c=new ClubState();c.event(event("chat",{comment:"hey"}));
+ assert.equal(c.event(event("gift",{giftName:"Thumbs Up",giftId:6246,diamondCount:1,repeatCount:3,giftType:0})),true);
+ let shots=c.snapshot().fireworks;assert.equal(shots.length,15);
+ const first=shots.filter(f=>f.salvo===shots[0].salvo);assert.equal(first.length,5);assert.equal(new Set(first.map(f=>f.lane)).size,5);assert.equal(new Set(first.map(f=>f.kind)).size,5);
+ assert.ok(new Set(shots.map(f=>f.salvo)).size===3);
+ c.event(event("gift",{uniqueId:"bob",nickname:"Bob",giftName:"Thumbs Up",giftId:6246,diamondCount:1,repeatCount:10,giftType:0}));
+ shots=c.snapshot().fireworks;assert.equal(shots.length,45);assert.ok(shots.every((f,i)=>!i||f.at>=shots[i-1].at));
+ assert.ok(!c.users.get("bob").swordFlight?.length);assert.equal(c.users.get("bob").coins,10);
+ const other=new ClubState();other.event(event("gift",{giftName:"Thumbs Up",giftId:999,diamondCount:1,giftType:0}));assert.equal(other.snapshot().fireworks.length,0);
+ assert.equal(catalog.matches({coins:1,name:"thumbs up"}),true);assert.equal(catalog.matches({coins:5,giftId:"6246"}),false);
+ assert.equal(other.control("firework",{}),true);assert.equal(other.snapshot().fireworks.length,15);
+});
+
+test("firework gifts skip the confetti burst and can fire automatically every N minutes",()=>{
+ const c=new ClubState();
+ c.event(event("gift",{giftName:"Thumbs Up",giftId:6246,diamondCount:1,repeatCount:1,giftType:0}));assert.equal(c.snapshot().effect,null);
+ const sim=new ClubState();assert.equal(sim.control("simulateGift",{coins:1,count:1}),true);assert.equal(sim.snapshot().effect,null);assert.equal(sim.snapshot().fireworks.length,5);
+ const rose=new ClubState();rose.event(event("gift",{giftName:"Rose",diamondCount:1,giftType:0}));assert.equal(rose.snapshot().effect,null);
+ const pick=c.snapshot().demoCandidates[0];
+ assert.equal(c.control("autoFirework",{minutes:2,count:2}),false,"needs a chosen character");
+ assert.equal(c.control("autoFirework",{minutes:0.2,recipientId:pick.id}),false);
+ assert.equal(c.control("autoFirework",{minutes:2,count:2,recipientId:pick.id}),true);
+ const auto=c.snapshot().autoFirework;assert.equal(auto.userId,pick.id);assert.equal(auto.count,2);
+ const before=c.snapshot().fireworks.length;
+ assert.equal(c.autoFireworkTick(auto.nextAt-1),false);
+ assert.equal(c.autoFireworkTick(auto.nextAt),true);
+ assert.equal(c.snapshot().fireworks.length,before+10);assert.equal(c.snapshot().autoFirework.nextAt,auto.nextAt+120000);
+ c.users.delete(pick.id);assert.equal(c.autoFireworkTick(auto.nextAt+120000),true,"recreates the chosen character");assert.equal(c.users.get(pick.id).variant,pick.variant);
+ assert.equal(c.control("autoFirework",{minutes:0}),true);assert.equal(c.snapshot().autoFirework,null);assert.equal(c.autoFireworkTick(Date.now()+1e9),false);
+});
+test("blaze fires flames and fireworks now or every N minutes without any gift",()=>{
+ const c=new ClubState();
+ assert.equal(c.control("blaze"),true);let snap=c.snapshot();assert.ok(snap.blaze&&snap.blaze.until-snap.blaze.startedAt===8000);assert.equal(snap.fireworks.length,15);assert.equal(snap.users.length,0);
+ assert.equal(c.control("autoBlaze",{minutes:0.2}),false);
+ assert.equal(c.control("autoBlaze",{minutes:2}),true);const next=c.snapshot().autoBlaze.nextAt;
+ assert.equal(c.autoBlazeTick(next-1),false);assert.equal(c.autoBlazeTick(next),true);assert.equal(c.snapshot().autoBlaze.nextAt,next+120000);
+ assert.equal(c.control("autoBlaze",{minutes:0}),true);assert.equal(c.snapshot().autoBlaze,null);assert.equal(c.autoBlazeTick(Date.now()+1e9),false);
+});
+test("wing reveals fire fireworks and 50 xu and up blaze right after the reveal",()=>{
+ const low=new ClubState();low.control("wingPreview",30);const l=low.snapshot();assert.equal(l.wingUnlock.tier,1);assert.equal(l.fireworks.length,10);assert.equal(l.blaze,null);
+ for(const coins of [50,100,150,200,300]){
+  const c=new ClubState();c.control("wingPreview",coins);const s=c.snapshot();
+  assert.ok(s.fireworks.length>=10,coins);assert.ok(s.fireworks.every(f=>f.at>=s.wingUnlock.startedAt));
+  assert.equal(s.blaze.startedAt,s.wingUnlock.until,coins);assert.ok(s.blaze.until>=s.wingUnlock.until+8000);assert.match(s.lastEvent,/cánh/);
+ }
+});
+test("a 50 xu sword blazes the stage as the rider lifts off; smaller swords do not",()=>{
+ const c=new ClubState();c.event(event("chat",{comment:"hey"}));const alice=c.users.get("alice");alice.coins=300;alice.wingTier=6;alice.wings=true;
+ c.event(event("gift",{giftName:"Phi kiếm",diamondCount:50,giftType:0}));
+ const s=c.snapshot(),rider=s.users.find(u=>u.id==="alice"),ride=rider.swordFlight.rides.at(-1);
+ assert.equal(s.blaze.startedAt,ride.startedAt+1200);assert.equal(s.blaze.until,ride.startedAt+1200+8000);assert.match(s.lastEvent,/Long Vương/);
+ const small=new ClubState();small.event(event("chat",{comment:"hey"}));small.event(event("gift",{giftName:"Phi kiếm",diamondCount:20,giftType:0}));assert.equal(small.snapshot().blaze,null);
+ c.event(event("gift",{giftName:"Phi kiếm",diamondCount:50,giftType:0}));assert.equal(c.snapshot().blaze.id,s.blaze.id,"the first blaze is kept");assert.equal(c.blazes.length,2);assert.equal(c.blazes[1].startedAt,c.users.get("alice").swordFlight.rides[1].startedAt+1200);
+});
+test("TikTok profile pictures are kept only from TikTok image hosts",()=>{
+ const {normalizeUser}=require("./engine");
+ assert.equal(normalizeUser({uniqueId:"a",profilePictureUrl:"https://p16-sign-va.tiktokcdn.com/a.jpeg?x=1"}).avatar,"https://p16-sign-va.tiktokcdn.com/a.jpeg?x=1");
+ assert.equal(normalizeUser({user:{uniqueId:"b",avatarThumb:{urlList:["https://p77-sign.tiktokcdn-us.com/b.webp"]}}}).avatar,"https://p77-sign.tiktokcdn-us.com/b.webp");
+ for(const bad of ["http://p16.tiktokcdn.com/a.jpg","https://127.0.0.1/a.jpg","https://evil.com/tiktokcdn.com.jpg","https://tiktokcdn.com.evil.com/a.jpg","javascript:alert(1)"])assert.equal(normalizeUser({uniqueId:"c",profilePictureUrl:bad}).avatar,"",bad);
+ const c=new ClubState();c.event(event("chat",{comment:"hey",profilePictureUrl:"https://p16-sign-va.tiktokcdn.com/a.jpeg"}));
+ assert.equal(c.snapshot().users[0].avatar,"https://p16-sign-va.tiktokcdn.com/a.jpeg");
+ c.event(event("chat",{comment:"hey"}));assert.equal(c.users.get("alice").avatar,"https://p16-sign-va.tiktokcdn.com/a.jpeg","a later event without a picture keeps it");
+});
+test("a Rose zooms the gifter and blooms one firework from their character",()=>{
+ const c=new ClubState();c.event(event("chat",{comment:"hey"}));
+ c.event(event("gift",{giftName:"Rose",diamondCount:1,giftType:0}));
+ const roses=c.snapshot().fireworks.filter(f=>f.kind==="rose");assert.equal(roses.length,1);assert.equal(roses[0].userId,"alice");
+ assert.equal(c.snapshot().focus.id,"alice");assert.ok(roses[0].at>=c.snapshot().focus.startedAt);
+});
+
+test("likes from the control desk heat the room and send floating hearts",()=>{
+ const c=new ClubState();assert.equal(c.control("like",{}),true);
+ const likes=c.snapshot().likes;assert.equal(likes.length,1);assert.equal(likes[0].count,10);assert.ok(c.snapshot().heatUntil>Date.now());
+ c.event(event("like",{likeCount:50}));assert.equal(c.snapshot().likes.at(-1).count,15);
+ assert.equal(c.control("like",{recipientId:"not-a-demo"}),false);
 });

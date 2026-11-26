@@ -29,7 +29,8 @@ QUÀ 5 XU
 - Cấu hình cũ đang để trống được điền bộ quà mặc định khi chạy bản 17.1. Những tên/mã quà bạn đã chỉnh được giữ lại. Nếu chủ động xóa hết quà trong bản mới rồi lưu, các ô vẫn để trống khi mở lại.
 - Bấm Thử Dancer 1–5 để kiểm tra camera mà không cộng xu thật.
 - Quà đã gán sẽ zoom đúng dancer đang ở vị trí đó trong 5 giây; nếu đang có màn khoe cánh hoặc Rose trước đó, đợi màn đó xong rồi zoom.
-- Khi zoom, camera chuyển mượt ra phía trước mặt dancer và lấy cận cảnh từ ngang eo trở lên để thấy rõ mặt, động tác tay. Hết thời gian thì trở lại góc toàn cảnh đang lướt.
+- Khi zoom, camera chuyển mượt ra phía trước dancer, mở đầu bằng cảnh toàn thân để thấy đèn dưới chân bật sáng, rồi từ từ đẩy vào cận cảnh từ ngang eo trở lên để thấy rõ mặt đang cười. Hết thời gian thì trở lại góc toàn cảnh đang lướt.
+- Trong 5 giây đó: đèn sân khấu đặt trên sàn trước chân dancer chiếu cột sáng lên người, mặt được hắt sáng, dancer mỉm cười và nghiêng đầu theo nhịp.
 - Xu vẫn cộng cho người tặng; quà 5 xu đã gán không tạo phi kiếm ngoài ý muốn khi tặng nhiều cái.
 
 NHẠC VÀ CHUYỂN ĐỘNG
@@ -68,3 +69,108 @@ TỰ DỌN NGƯỜI XEM
 - Người đó chat hey hoặc tặng quà để trở lại. Năm dancer 3D cố định và nhân vật mô phỏng không bị dọn.
 - Có thể tắt trong mục TỰ DỌN SÀN nếu muốn giữ cả những người chỉ xem im lặng. Máy chủ kiểm tra mỗi 5 giây.
 - Kiểm tra thêm: node --test idle-viewers.test.js.
+
+NHẢY TỰ NHIÊN & PHẢN ỨNG QUÀ / BẢN 17.3
+- Nhịp nhún: gối khuỵu nhẹ trên mỗi phách (64 phách mỗi lượt), hông dồn trọng tâm trái/phải mỗi hai phách.
+- Thân trên nghiêng ngược hông, cúi nhẹ theo nhịp nhún; đầu gật sau phách một chút, nghiêng theo hông và luôn hướng về khán giả.
+- Tay chuyển động lớp: khuỷu tay đi trước, bàn tay theo sau nửa nhịp nên động tác mềm, không còn cứng như một thanh thẳng.
+- Các model không có biểu cảm khuôn mặt sẵn. Nụ cười được tạo bằng morph target: đỉnh lưới quanh miệng được kéo cong lên ở khóe. Vị trí miệng mỗi model lưu ở mouth trong dancer-catalog.js; nếu thêm model mới, cần đo lại vị trí này.
+- Ánh sáng hắt lên mặt được thêm vào shader nên áp dụng cho cả model không nhận đèn (Wriothesley, Childe).
+- dancer-expression.js: tạo nụ cười và ánh sáng phản ứng quà.
+
+VŨ ĐẠO CLUB 8 ĐỘNG TÁC / BẢN 17.4
+- Thay chuyển động ước lượng từ video bằng vũ đạo club tự dựng, khớp 64 phách mỗi lượt 26,7 giây. Mỗi 8 phách là một động tác:
+  1. Nhún sâu, tay đánh như chạy bộ.  2. Đấm tay lên trời mỗi phách, tay kia chống hông, đổi tay sau 4 phách.
+  3. Chỉ tay về khán giả rồi giật nắm tay về ngực.  4. Vỗ tay phía trước, rồi vỗ trên đầu.
+  5. Giơ hai tay lắc theo hông.  6. Shimmy rung vai kết hợp uốn người.
+  7. Nâng gối luân phiên, hai tay đấm xuống.  8. Nhảy bật mỗi phách, tay mở chữ V.
+- Chân: tư thế đứng rộng, gối hơi khuỵu; trọng tâm dồn qua chân trụ, chân kia nhấc lên mỗi phách. Bàn chân luôn phẳng và hướng về khán giả khi hông xoay.
+- Tay: đổi tư thế nhanh đúng phách rồi giữ (có độ nảy nhẹ), không còn dao động đều như sóng sin.
+- Dancer 2 và 4 (theo thứ tự model) nhảy đối xứng gương với 1, 3, 5.
+- Chuyển động được tính sẵn ở 30 khung/giây (trước là 12) để các cú nhấn nhịp rõ.
+- Bảng động tác nằm trong MOVES và tư thế tay trong ARM ở dancers-3d.js.
+
+NHÂN VẬT CHIBI TRÊN SÀN / BẢN 17.5
+- Đẹp hơn: tay chân có viền sáng tạo khối, nắm tay bóng, giày sneaker đế trắng, ánh sáng sàn riêng dưới chân nháy theo nhịp và quầng sáng màu sân khấu sau đầu.
+- 8 điệu mới cho mọi nhân vật: Floss lắc hông, Dab đổi bên, Đẩy nóc nhà, Tưới nước, Disco chỉ trời, Cưỡi ngựa, Sóng tay, Bật nhảy dang tay.
+- 7 nhân vật meme mới (chat tên để vào sàn): gau hong, gau vang, nam toc xanh, nam toc do, gau tim, hoat ke, cao boi.
+  Mỗi nhân vật đổi luân phiên 3 điệu riêng, 4 phách một lần.
+- Mặt meme mới được tạo từ assets/meme-heads.png bằng cách đổi màu tai gấu trúc / tóc nấm (headTint trong character-catalog.js), riêng Mặt Hoạt Kê được vẽ bằng code. Muốn thêm mặt meme khác hoàn toàn cần ảnh PNG mới.
+
+CÁNH ĐẬP / BẢN 17.6
+- Cánh đập một lần mỗi 2 phách: đập xuống nhanh, mạnh rồi nâng lên chậm; biên độ lớn hơn trước.
+- Khi đập xuống có bóng mờ lưu ảnh (2 lớp) phía sau cánh.
+- Mỗi lần đập xuống, sao rơi từ mép cánh xuống theo trọng lực, lấp lánh và bay dạt ra ngoài; cánh cấp cao rơi nhiều sao hơn.
+- Áp dụng cho mọi nhân vật có cánh, kể cả màn khoe cánh khi mở khóa.
+
+PHÁO HOA 1 XU / BẢN 17.7
+- Quà: Thumbs Up (👍), mã 6246, giá 1 xu (danh mục VN livefinity.pro, kiểm tra 26/11/2026). Hoa hồng và TikTok cũng 1 xu nhưng đã có hiệu ứng riêng nên không dùng.
+- Mỗi Thumbs Up bắn 1 quả pháo hoa từ sàn phía trước sân khấu; combo bắn liên tiếp mỗi 0,38 giây, tối đa 12 quả mỗi lượt tặng. Nhiều người tặng cùng lúc thì pháo xếp hàng bắn nối tiếp.
+- Pháo bay lên có vệt sáng, nổ chớp trắng, tỏa chùm tia 2 màu có trọng lực và lấp lánh, hắt sáng xuống sàn.
+- Xu vẫn cộng cho người tặng. Combo đủ 10/20/50 xu bằng Thumbs Up không kích hoạt phi kiếm.
+- Nhận diện theo mã quà; nếu sự kiện không có mã thì so tên "Thumbs Up". Đổi quà trong firework-catalog.js.
+- Bảng QUÀ & HIỆU ỨNG (phải dưới) có dòng 👍 Thumbs Up · Bắn pháo hoa. Bảng điều khiển có nút 🎆 Thử pháo hoa (bắn 3 quả, không phát sinh thanh toán).
+
+THẢ LIKE / BẢN 17.8
+- Mỗi lượt like từ phòng LIVE làm tim bay lên ở bên phải màn hình (tối đa 15 tim mỗi lượt) và sân khấu sáng rực thêm 4,5 giây như trước.
+- Bảng điều khiển, mục 01 / KIỂM TRA SÂN KHẤU, có nút ❤ Thử thả like (10 like mô phỏng, không phát sinh gì).
+- Nếu trang bị đen sau khi cập nhật: máy chủ cũ vẫn đang chạy. Đóng cửa sổ máy chủ cũ rồi chạy lại start.bat. Trang giờ vẫn hiển thị kể cả khi máy chủ cũ thiếu file firework-catalog.js, chỉ không có pháo hoa.
+
+PHÁO HOA NHIỀU KIỂU + HOA HỒNG / BẢN 17.9
+- Mỗi Thumbs Up bắn một loạt 5 quả, rải đều 5 vị trí ngang màn hình, cách nhau khoảng 0,17 giây. 5 quả là 5 kiểu khác nhau, chọn ngẫu nhiên trong 6 kiểu: cúc tròn 2 màu, vòng tròn, liễu rủ vàng, cọ (tia dày có kim tuyến), tách nhánh (mỗi tia nổ thêm 4 tia), trái tim.
+- Combo nhiều Thumbs Up: mỗi quà thêm một loạt, các loạt cách nhau 0,9 giây, tối đa 6 loạt (30 quả) mỗi lượt tặng.
+- Hoa hồng: ngoài zoom như cũ, sau khoảng 0,35 giây có một quả pháo hoa hồng chớp sáng và nổ tỏa ra từ chính nhân vật người tặng (trên sàn hoặc trên bục TOP), hình trái tim hồng kèm chùm tia trắng.
+- Bảng QUÀ & HIỆU ỨNG: 👍 Thumbs Up · Bắn 5 pháo hoa; 🌹 Hoa hồng · Zoom + pháo hoa.
+
+ZOOM SÁT + TỐI ƯU / BẢN 18.0
+- Zoom (Hoa hồng, lệnh zoom): camera tiến sát còn khoảng 360 đơn vị, nhắm ngang ngực nhân vật, thay vì chỉ lùi 52% khoảng cách cũ. Chuyển cảnh 0,55 giây.
+- Đo độ trễ trong hệ thống: máy chủ đẩy quà xuống trang trong 2–3 ms, trang xử lý mỗi cập nhật dưới 1 ms. Phần trễ còn lại nằm ở TikTok → TikFinity, ngoài phạm vi ứng dụng.
+- Hiệu ứng phản hồi nhanh hơn: pháo Thumbs Up nổ sau 0,62 giây (trước 0,85), pháo hoa hồng nổ sau 0,2 giây (trước 0,35).
+- Ảnh nhân vật, mặt meme và cánh được tạo sẵn các bản thu nhỏ chất lượng cao; mỗi khung dùng bản nhỏ nhất vẫn lớn hơn 1,25 lần kích thước hiển thị. Hình giữ nguyên hoặc nét hơn, giảm chi phí vẽ.
+- Sao (cánh, vệt, sao rơi, pháo) dùng ảnh mẫu dựng sẵn theo màu thay vì vẽ lại hình từng ngôi sao.
+- Đo trên máy này (thời gian CPU mỗi khung, trung vị / p95): 36 người 13,9–22,5 / 30–41 ms → 8,7–10,7 / 13,5–17,3 ms; 120 người 20,5–22,4 → 15,9–21,6 ms. Kết quả thực tế tùy GPU và LIVE Studio.
+- 5 dancer 3D render ở độ phân giải cao hơn kích thước hiển thị khoảng 1,3 lần (256/384/512/768/1024), nét hơn ở góc toàn cảnh.
+- Mặt meme đổi màu được tạo ở 640 px (trước 320) để không mờ khi zoom sát.
+
+PHÁO HOA: CAMERA + TỰ ĐỘNG / BẢN 18.0
+- Thumbs Up không còn bắn pháo giấy ở giữa màn hình; chỉ còn pháo hoa.
+- Khi có pháo hoa, camera lia nhanh (khoảng 0,4 giây) về góc chính diện giữa sàn, kéo lại gần để pháo hoa to ở nửa trên màn hình, giữ đến khi tàn pháo rơi hết rồi mới trả về camera thường. Zoom Hoa hồng, cánh và dancer 5 xu vẫn được ưu tiên hơn.
+- Bảng điều khiển › Mô phỏng tặng xu: nút "👍 Thumbs Up 1 xu · Bắn pháo hoa", "❤ Thả 10 like" và khung "🎆 Pháo hoa tự động" (số phút 0,5–180, số quà mỗi lần 1–6). Nhân vật tặng là nhân vật đang chọn ở ô "Người nhận xu đang chọn". Máy chủ tự bắn đúng giờ; trang hiển thị đếm ngược. Thông báo bật/tắt không hiện lên sân khấu.
+- Hẹn giờ không được lưu qua lần khởi động lại start.bat; cần bật lại sau khi mở máy chủ.
+
+BÙNG CHÁY TỰ ĐỘNG / BẢN 18.3
+- Bảng điều khiển › Nhịp sàn: nút "🔥 Bùng cháy ngay" và khung "🔥 Bùng cháy tự động" (số phút 0,5–180). Không cần ai tặng xu; máy chủ tự kích hoạt đúng giờ và hiển thị đếm ngược.
+- Mỗi lần bùng cháy kéo dài 8 giây: 14 vòi lửa trên sàn (12 vòi xếp vòng quanh sàn và 2 vòi trước sân khấu giữa), 4 vòi ở 4 góc sân khấu giữa, 4 vòi trên sân khấu DJ phía sau. Lửa phun theo nhịp BPM thành từng đợt; giây đầu và 1,8 giây cuối tất cả cùng phun. Sàn ánh lên màu cam, kèm 3 loạt pháo hoa (15 quả).
+- Camera lia nhanh về chính diện, lùi rộng hơn so với khi chỉ bắn pháo hoa để thấy cả vòng lửa, sau đó trả về camera thường.
+- Lửa được sắp theo chiều sâu nên nhân vật đứng trước vẫn che lửa phía sau. Hẹn giờ không được lưu khi chạy lại start.bat.
+
+CÁNH + LỬA / BẢN 18.4
+- Khi mở khóa cánh (mọi mức, kể cả nút "Thử … xu"): 2 cột lửa phun theo nhịp sau lưng nhân vật trong suốt màn khoe cánh, kèm 2 loạt pháo hoa (10 quả) phía sau.
+- Mức cánh 50 xu trở lên (50, 100, 150, 200, 300): ngay khi màn khoe cánh kết thúc, cả sàn bùng cháy 8 giây như chế độ Bùng cháy (lửa quanh sàn, trên sân khấu, pháo hoa). Mức 30 xu chỉ có lửa sau lưng và pháo hoa.
+- Nhận phi kiếm vẫn bỏ màn khoe cánh như cũ, nên khi đó không có các hiệu ứng này.
+
+PHI KIẾM 50 XU + BÙNG CHÁY / BẢN 18.5
+- Phi kiếm 50 xu (Long Vương): người tặng vẫn bay phi kiếm 12 giây như cũ. Đúng lúc cất cánh (sau 1,2 giây), cả sàn bùng cháy 8 giây: lửa quanh sàn, trên sân khấu và 15 quả pháo hoa. Phi kiếm 10 và 20 xu không bùng cháy.
+- Camera bám theo người cưỡi phi kiếm suốt chuyến bay, kể cả khi đang bùng cháy hay bắn pháo hoa (không lia về giữa sàn). Với phi kiếm 50 xu, camera chỉ zoom nhẹ (tiến gần khoảng 25%, phi kiếm thường 42%) để vẫn thấy lửa.
+- Nhiều lần bùng cháy chồng nhau sẽ nối thành một lần dài hơn. Lần xếp hàng sau (ví dụ phi kiếm 50 xu thứ hai bay sau 12 giây) được giữ lại và cháy đúng lượt.
+
+PHI KIẾM MỚI / BẢN 18.6
+- 3 thanh phi kiếm được thay bằng tranh mới (tách nền từ ảnh gốc, lưu ở assets/swords): 10 xu · Tử Lôi (kiếm tím sấm sét, rồng bạc), 20 xu · Bạch Phượng (kiếm trắng cánh phượng, chữ vàng), 50 xu · Long Vương (kiếm vàng rồng đỏ trắng). Thứ tự xu giữ nguyên.
+- Kiếm nằm ngang dưới chân người cưỡi, mũi chỉ theo hướng bay, có quầng sáng theo màu kiếm, ánh lấp lánh chạy dọc lưỡi và đốm sáng ở mũi. Vệt bay và bóng mờ đổi màu theo kiếm mới.
+- Dây tua rua treo bên cạnh trong ảnh gốc được bỏ đi để kiếm bay ngang trông gọn.
+
+HIỆU ỨNG PHI KIẾM / BẢN 18.6 (chỉ đổi giao diện)
+- 10 xu · Tử Lôi: sấm sét tím trắng gấp khúc, có nhánh, chớp liên tục quanh lưỡi kiếm, kèm quầng tím.
+- 20 xu · Bạch Phượng: 3 con phượng hoàng trắng bay theo kiếm (nhìn ngang, hướng về mũi kiếm): mào lông vàng, mỏ vàng, cánh lớn vỗ lên xuống có lông chính tách rời, đuôi 5 dải lông dài uốn lượn có "mắt" vàng xanh ở cuối. Chúng lượn lên xuống, lúc bay sau lúc bay trước người cưỡi.
+- 50 xu · Long Vương: 2 con rồng (vàng và trắng bờm đỏ) uốn lượn xoắn quanh kiếm. Đầu rồng to, xoay vòng theo thân (lúc trên, lúc dưới, lúc vòng ra sau lưỡi) nhưng mặt luôn hướng về mũi kiếm, mõm dài, hàm há có răng, sừng nhánh, bờm lửa, râu bay ngược. Thân có vảy, vây lưng, 4 chân có móng, đuôi có chùm lửa; thân uốn chậm, vòng xoắn rộng; sóng xoắn chạy từ đầu về đuôi như rồng đang bơi tới trước, đuôi dày có chùm lửa lớn. Lưỡi kiếm có thêm sấm sét vàng hồng chớp liên tục.
+- Mọi phi kiếm: đốm sáng li ti theo màu kiếm rơi lấp lánh phía sau đường bay xuống sàn rồi tắt dần (tính trong không gian 3D, nên ở lại đúng chỗ kiếm đã bay qua).
+
+ẢNH ĐẠI DIỆN + KHUNG TOP + ĐẠI GIA PHÚ HÀO / BẢN 18.7
+- Bảng tên mỗi nhân vật: khung tối viền vàng, ảnh đại diện TikTok tròn bên trái rồi đến tên. Ảnh lấy từ dữ liệu TikFinity (profilePictureUrl); máy chủ tải ảnh hộ qua /api/avatar (chỉ từ máy chủ ảnh của TikTok, có bộ nhớ đệm). Người thử hoặc người chưa có ảnh: vòng tròn màu với chữ cái đầu tên.
+- Khung TOP 1-2-3 mới (vàng / bạc / đồng): cánh lưỡi kiếm kim loại hai bên, vương miện có đá quý, huy chương tròn chứa ảnh đại diện, dải băng "TOP n" và số xu. TOP 1 có thêm tia nắng xoay sau huy chương. Khung luôn vẽ đè lên sân khấu (không bị quả cầu disco che).
+- ĐẠI GIA PHÚ HÀO: khi TOP 1 có tổng quà từ 200 xu trở lên, dải băng "TOP 1" trên huy hiệu ở sàn đổi thành bảng "ĐẠI GIA PHÚ HÀO" (nền tím đen, viền vàng kép, chữ vàng có vệt sáng chạy, kim cương hai bên) và sấm sét tím vàng bao quanh cả huy hiệu. TOP 1 dưới 200 xu vẫn là "TOP 1". Bảng xếp hạng góc màn hình không đổi.
+- Khi người trong TOP 3 bay phi kiếm, khung TOP (và huy hiệu phú hào) bay theo phía trên tên của họ; bục trống trong lúc bay.
+
+PHI KIẾM TỪ 50 XU + LỬA CHÉO / BẢN 18.8
+- Mọi lần tặng (một quà hoặc một combo) từ 50 xu trở lên đều được bay phi kiếm Long Vương 12 giây. Nếu lần tặng đó mở khóa cánh mới thì khoe cánh trước, khoe xong mới cất cánh bay kiếm (bùng cháy sàn nối liền). Phi kiếm 10 và 20 xu vẫn bỏ qua màn khoe cánh như cũ; nếu chúng hủy màn khoe cánh của chính người đó thì chuyến bay đang chờ phía sau được cho bay ngay.
+- Màn khoe cánh: 2 vòi lửa phun chéo từ hai góc dưới, bắt chéo thành hình chữ X sau lưng nhân vật rồi vượt sang phía bên kia, bùng mạnh theo nhịp. Hai ống pháo giấy bắn theo hai đường lửa (2 đợt, khoảng 360 mảnh nhiều màu), giấy lật xoay và rơi lả tả.
